@@ -28,6 +28,18 @@ class Game(ctk.CTk):
         # Apple
         self.place_apple()
 
+        # Score
+        # Create a frame for score
+        score_label = ctk.CTkLabel(
+            self, text="Score:", anchor="ne", font=("Helvetica", 28)
+        )
+        score_label.place(relx=0.4, rely=0.05)
+        self.score_int = ctk.IntVar(self, 0)
+        score_int_label = ctk.CTkLabel(
+            self, textvariable=self.score_int, anchor="ne", font=("Helvetica", 28)
+        )
+        score_int_label.place(relx=0.6, rely=0.05)
+
         # Draw Logic
         self.draw_frames = []
         self.animate()
@@ -49,6 +61,7 @@ class Game(ctk.CTk):
         # APPLE COLLISION
         if self.snake[0] == self.apple_pos:
             self.place_apple()
+            self.score_int.set(self.score_int.get() + 1)
         else:
             # We just use the pop method to get the last item of the list ( this is a queue)
             # We only want to pop if we do not eat the apple
@@ -116,7 +129,11 @@ class Game(ctk.CTk):
             self.draw_frames.clear()
 
         # Create a frame for the apple and append to the draw_frames list
-        apple_frame = ctk.CTkFrame(self, fg_color=APPLE_COLOR, corner_radius=50)
+        apple_frame = ctk.CTkFrame(
+            self,
+            fg_color=APPLE_COLOR,
+            corner_radius=50,
+        )
         self.draw_frames.append((apple_frame, self.apple_pos))
 
         # Create a frame for each swuare body part of snake, use enumerate to assign an index and a position tuple (col, row)
